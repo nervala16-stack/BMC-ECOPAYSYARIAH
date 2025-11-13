@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EcopaySyariah — Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="login-page">
+  <main class="auth-card">
+    <h1 class="auth-logo">Ecopay<span>Syariah</span></h1>
+    <h2 id="authTitle">Masuk</h2>
+
+    <form id="authForm" novalidate>
+      <input id="email" type="email" placeholder="Email" required />
+      <input id="password" type="password" placeholder="Kata Sandi" required />
+      <button id="submitBtn" type="submit">Masuk</button>
+    </form>
+
+    <p class="auth-switch">
+      <span id="promptText">Belum punya akun?</span>
+      <a href="#" id="toggleAuth">Daftar</a>
+    </p>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EcopaySyariah — Dompet Digital</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dashboard-page">
+  <header class="wallet-header">
+    <h2>Ecopay<span>Syariah</span></h2>
+    <div class="user-profile" onclick="toggleProfile()">
+      <img src="https://cdn-icons-png.flaticon.com/512/456/456212.png" alt="user" />
+    </div>
+  </header>
+
+  <div class="profile-popup" id="profilePopup">
+    <h4>Profil Pengguna</h4>
+    <p id="userEmail">Email: -</p>
+    <button onclick="logout()">Keluar</button>
+  </div>
+
+  <main class="wallet-container">
+    <section class="wallet-card">
+      <div class="wallet-info">
+        <h4>Saldo Ecopay</h4>
+        <div id="balance" class="balance">Rp 0</div>
+        <small id="userName"></small>
+      </div>
+      <div class="wallet-qr">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=EcopaySyariah" alt="QR Code" />
+      </div>
+    </section>
+
+    <section class="wallet-actions">
+      <button onclick="topUp()">💰 Top Up</button>
+      <button onclick="sendMoney()">📤 Kirim</button>
+      <button onclick="withdraw()">🏦 Tarik</button>
+      <button onclick="loan()">📄 Pinjaman</button>
+    </section>
+
+    <section class="wallet-history">
+      <h3>Riwayat Transaksi</h3>
+      <div id="transactionList">Belum ada transaksi.</div>
+    </section>
+  </main>
+
+  <div id="notifBox" class="notif-box"></div>
+
+  <footer class="wallet-footer">
+    <p>🌿 EcopaySyariah Digital Wallet © 2025</p>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Detail Transaksi | EcopaySyariah</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="riwayat-page">
+  <header class="wallet-header">
+    <h2>📜 Detail Transaksi</h2>
+    <button class="back-btn" onclick="window.location.href='dashboard.html'">⬅ Kembali</button>
+  </header>
+
+  <main class="detail-container">
+    <div class="detail-card" id="detailCard">Memuat data...</div>
+  </main>
+
+  <footer class="wallet-footer">
+    <p>🌿 EcopaySyariah © 2025</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const u = JSON.parse(localStorage.getItem("eco_currentUser"));
+    const q = new URLSearchParams(location.search);
+    const i = +q.get("tx");
+    const c = document.getElementById("detailCard");
+    if (!u || !u.transactions[i]) {
+      c.innerHTML = "<p>Transaksi tidak ditemukan ❌</p>";
+    } else {
+      const tx = u.transactions[i];
+      const qr = encodeURIComponent(`${tx.type} - ${tx.amount} (${tx.date})`);
+      c.innerHTML = `
+        <h3>${tx.type}</h3>
+        <p><b>Jumlah:</b> ${format(tx.amount)}</p>
+        <p><b>Info:</b> ${tx.info || '-'}</p>
+        <p><b>Tanggal:</b> ${tx.date}</p>
+        <hr/>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${qr}" alt="QR">
+        <div class="detail-actions">
+          <button onclick="pdf(${i})">⬇ Unduh Bukti PDF</button>
+          <button onclick="mail(${i})">📧 Kirim ke Email</button>
+        </div>`;
+    }
+    function format(n){return "Rp "+n.toLocaleString("id-ID");}
+    function pdf(i){
+      const { jsPDF }=window.jspdf;
+      const u=JSON.parse(localStorage.getItem("eco_currentUser"));
+      const t=u.transactions[i];
+      const doc=new jsPDF();
+      doc.text("Bukti Transaksi EcopaySyariah",20,20);
+      doc.text(`Jenis: ${t.type}`,20,40);
+      doc.text(`Jumlah: ${format(t.amount)}`,20,50);
+      doc.text(`Info: ${t.info||'-'}`,20,60);
+      doc.text(`Tanggal: ${t.date}`,20,70);
+      doc.text(`Pengguna: ${u.email}`,20,80);
+      doc.save(`Bukti_${t.type}_${Date.now()}.pdf`);
+      alert("PDF berhasil diunduh ✅");
+    }
+    function mail(i){
+      const u=JSON.parse(localStorage.getItem("eco_currentUser"));
+      const t=u.transactions[i];
+      const body=`Halo ${u.email},
+
+Bukti transaksi Anda:
+Jenis: ${t.type}
+Jumlah: ${format(t.amount)}
+Info: ${t.info||'-'}
+Tanggal: ${t.date}
+
+Terima kasih 🌿`;
+      location.href=`mailto:${u.email}?subject=Bukti Transaksi EcopaySyariah&body=${encodeURIComponent(body)}`;
+    }
+  </script>
+</body>
+</html>
